@@ -1,0 +1,41 @@
+{
+"general_args":
+            {"overwrite_defaults" : true,
+             "inherit" : ["Resize", "Normalize"]
+            },   
+    
+"repetition_strategy":
+            {"n_augmentations" : [1, 1],
+             "order" : ["global_1", "global_2"]
+            },
+"transforms":{
+    "train_transforms" : 
+                        {"global_1":
+                                    {
+                                    "Resize" :                   {"apply" : true,  "height" : 224, "width": 224},
+                                    "ColorJitter" :              {"apply" : false, "brightness" : 0.4, "contrast" : 0.4, "saturation" : 0.2, "hue" : 0.1, "p" : 0.8},
+                                    "VerticalFlip" :             {"apply" : true,  "p" : 0.5},      
+                                    "HorizontalFlip" :           {"apply" : true,  "p" : 0.5},
+                                    "RandomRotate90":            {"apply" : true,  "p" : 0.5},                                  
+                                    "RandomGrayscale" :          {"apply" : false, "p" : 0.2},  
+                                    "RandomBrightnessContrast" : {"apply" : false, "brightness_limit": 0.01, "p" : 0.9},  
+                                    "RandomGamma" :              {"apply" : false, "p" : 0.2},
+                                    "GaussianBlur" :             {"apply" : false, "p" : 0.2, "blur_limit" : 11, "sigma_limit_lower" : 0.01, "sigma_limit_higher" : 1.0},
+                                    "RandomShiftColor" :         {"apply" : true,  "p" : 0.8}
+                                    },
+                        "global_2":
+                                    {
+                                    "Resize" :                   {"apply" : true,  "height" : 224, "width": 224},
+                                    "ColorJitter" :              {"apply" : false, "brightness" : 0.4, "contrast" : 0.4, "saturation" : 0.2, "hue" : 0.1, "p" : 0.8},
+                                    "VerticalFlip" :             {"apply" : true,  "p" : 0.5},      
+                                    "HorizontalFlip" :           {"apply" : true,  "p" : 0.5},
+                                    "RandomRotate90":            {"apply" : true,  "p" : 0.5},                                  
+                                    "RandomGrayscale" :          {"apply" : false, "p" : 0.2},  
+                                    "RandomBrightnessContrast" : {"apply" : false, "brightness_limit": 0.01, "p" : 0.9},  
+                                    "RandomGamma" :              {"apply" : false, "p" : 0.2},  
+                                    "GaussianBlur" :             {"apply" : false, "p" : 0.2, "blur_limit" : 11.0, "sigma_limit_lower" : 0.01, "sigma_limit_higher" : 1.0},
+                                    "RandomShiftColor" :         {"apply" : true,  "p" : 0.8}
+                                    }
+        }
+    }
+}

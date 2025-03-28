@@ -1,0 +1,284 @@
+{
+"dataset_params" : {"dataset": "RxRx1_HUVEC",
+                    "data_test_domain": "RxRx1_HUVEC",
+                    "data_location" : "/raid/cian/user/sergei.pnev/data",
+                    "split_method": "domain",
+                    "augmentation_pipeline": "augmentation_strategy-RxRx1-dino.json",
+                    "cross_batch_training": true,
+                    "dmso": false,
+                    "dict_control": false,
+                    "meta_learning": false,
+
+                    "train_transforms" : {"Resize" : {"apply" : true,
+                                                      "height" : 256,
+                                                      "width" : 256},
+                                        
+                                        "CenterCrop": {"apply" : false,
+                                                      "height" : 224,
+                                                      "width" : 224}, 
+                                        
+                                        "Normalize": true,
+                                        
+                                        "VerticalFlip" : {"apply" : true,
+                                                            "p" : 0.5},
+                                          
+                                        "HorizontalFlip" : {"apply" : true,
+                                                            "p" : 0.5},
+                                          
+                                        "RandomRotation" : {"apply" : false,
+                                                            "angle" : 5,
+                                                           "p" : 0.5}, 
+                                        "RandomRotate90":  {"apply" : true, 
+                                                            "p" : 0.5},          
+                                          
+                                        "RandomGrayscale" : {"apply" : false,
+                                                                "p" : 0.2}, 
+                                        
+                                        "RandomCrop": {"apply" : false,
+                                                      "height" : 224,
+                                                      "width" : 224,
+                                                      "padding" : 0,
+                                                      "p" : 1.0}, 
+                                        
+                                        "ColorJitter" : {"apply" : false,
+                                                        "brightness" : 0.8,
+                                                        "contrast" : 0.8,
+                                                        "saturation" : 0.8,
+                                                        "hue" : 0.2,
+                                                        "p" : 0.8},
+                                          
+                                        "RandomPerspective" : {"apply" : false,
+                                                            "distortion_scale" : 0.2,
+                                                              "p" : 0.5}, 
+    
+                                        "RandomAffine" : {"apply" : false,
+                                                              "degrees" : 5,
+                                                              "translate" : [0.1, 0.3], 
+                                                              "scale" : [0.1, 3.3],
+                                                             "shear" : 0.2,
+                                                             "p" : 0.5},
+                                        "RandomErasing" : {"apply" : false,
+                                                              "scale" : [0.02, 0.33],
+                                                              "ratio" : [0.3, 3.3], 
+                                                              "value" : 0,
+                                                              "p" : 0.5},
+                                          
+                                        "RandomGaussianBlur" : {"apply" : false,
+                                                              "radius_min" : 0.1,
+                                                              "radius_max" : 2.0, 
+                                                              "p" : 0.2},
+                                          
+                                        "RandomSolarize" : {"apply" : false,
+                                                            "threshold" : 128,
+                                                            "p" : 0.2},                                        
+                                          
+                                        "RandomResizedCrop" : {"apply" : true,
+                                                                 "size" : 224, 
+                                                                 "scale" : [0.8, 1]},
+                                          
+                                        "MultiCrop" : {"apply" : false,
+                                                              "n_crops" : [2, 6],
+                                                              "sizes" : [224, 96],
+                                                              "scales" : [[0.4, 1.0], [0.05, 0.4]]},
+                                          
+                                        "RandomShiftColor" : {"apply" : true,
+                                                             "p" : 0.8}  
+                                          
+                                         },
+                  
+                    "val_transforms" : {"Resize" : {"apply" : true,
+                                                      "height" : 256,
+                                                      "width" : 256},
+                                        
+                                        "CenterCrop": {"apply" : true,
+                                                      "height" : 224,
+                                                      "width" : 224}, 
+                                        
+                                        "Normalize": true                                        
+                                         },
+                  
+                    "test_transforms" : {"Resize" : {"apply" : true,
+                                                      "height" : 256,
+                                                      "width" : 256},
+                                        
+                                        "CenterCrop": {"apply" : true,
+                                                      "height" : 224,
+                                                      "width" : 224}, 
+                                        
+                                        "Normalize": true                                       
+                                         }
+                  },
+
+"dataloader_params" : {"trainloader" : {"batch_size" : 124,
+                                        "num_workers" : 6,
+                                        "shuffle": true,
+                                        "pin_memory" :true,
+                                        "drop_last" : true, 
+                                        "persistent_workers" : true},
+                       "valloader" : {"batch_size" : 92,
+                                        "num_workers" : 6,
+                                        "shuffle": false, 
+                                        "pin_memory" : true,
+                                        "drop_last" : true, 
+                                        "persistent_workers" : true},
+                       "testloader" : {"batch_size" : 92,
+                                        "num_workers" : 6,
+                                        "shuffle": false, 
+                                        "pin_memory" : false,
+                                        "drop_last" : false, 
+                                        "persistent_workers" : false}
+                  },
+    
+"model_params" : {"backbone_type": "deit_small",
+                  "cnn_params" : {"pretrained_type" : "supervised"},
+                  "transformers_params" : {"img_size" : [224],
+                                           "patch_size" : 16,
+                                           "pretrained_type" : "supervised",
+                                           "is_memory_efficient" : true},
+                  "pretrained" : true,
+                  "transfusion_init": {"apply" : false,
+                                       "transfer_up_to_layer": -2},
+                  "freeze_backbone" : false,
+                  "use_aux_fc" : true,
+                  "channel_agnostic" : false,
+                  "DINO" : {"projection_size" : 4096,
+                            "moving_average_decay" : 0.995,
+                            "moving_average_decay_end" : 0.9996,
+                            "warmup_teacher_temp_epochs" : 10,
+                            "use_dino_loss" : true,
+                            "use_barlow_loss" : true,
+                            "only_cross_domain" : false,
+                            "barlow_loss_weight" : 0.75,
+                            "barlow_lambda_off_diag" : 0.95,
+                            "barlow_loss_batch_com" : false,
+                            "use_barlow_student" : false,
+                            "multi_center_training" : true,
+                            "center_momentum" : 0.9,
+                            "embedding_centering" : false,
+                            "embedding_centering_lambda" : 0.5,
+                            "freeze_last_for" : 1,
+                            "final_weight_decay" : 1e-2,
+                            "bn_head": false,
+                            "norm_last_layer" : true,
+                            "hidden_dim" : 1024,
+                            "bottleneck_dim" : 512,
+                            "stop_early" : 200,
+                            "moa": false
+                           },
+                  "reset_norm_stats" : false,
+                  "replace_BN" : {"apply" : false,
+                                "normtype" : "LayerNorm",
+                                "num_groups" : 32,
+                                "keep_stats" : false}
+                  },
+    
+"optimization_params" : {
+    "default" : {"optimizer" : {
+                    "type" : "AdamW",
+                    "autoscale_lr": false,        
+                    "params" : {"lr" : 7e-4,
+                                "weight_decay" : 4e-3}
+                            },
+                "LARS_params" : {"use": false,
+                                "batch_act_thresh" : 256,
+                                "eps" : 1e-8,
+                                "trust_coef" : 0.001},
+                "scheduler" : {
+                    "type" : ["LinearWarmup", "CosineAnnealingLR"],
+                    "params" : {"ReduceLROnPlateau" : {"mode" : "max",
+                                                    "factor" : 0.1,
+                                                    "patience" : 2, 
+                                                    "verbose" : true},
+                                "OneCycleLR" : {"anneal_strategy" : "linear",
+                                               "final_div_factor": 1e-4},
+                                "MultiStepLR" : {"milestones": [7], 
+                                                 "gamma" : 0.1},
+                                "CosineAnnealingLR" : {"eta_min":1e-5}, 
+                                "LinearWarmup" : {"warmup_epochs":10,
+                                                  "warmup_iters":1000,
+                                                  "eta_min":1e-5}                                   
+                               }}},
+    "aux_head" : {"optimizer" : {
+                    "type" : "Adam",
+                    "autoscale_lr": false,        
+                    "params" : {"lr" : 5e-5,
+                                "weight_decay" : 1e-3}
+                            },
+                "LARS_params" : {"use": false,
+                                "batch_act_thresh" : 256,
+                                "eps" : 1e-8,
+                                "trust_coef" : 0.001},
+                "scheduler" : {
+                    "type" : ["CosineAnnealingWarmRestarts"],
+                    "params" : {"ReduceLROnPlateau" : {"mode" : "max",
+                                                    "factor" : 0.1,
+                                                    "patience" : 2, 
+                                                    "verbose" : true},
+                                "OneCycleLR" : {"anneal_strategy" : "linear",
+                                               "final_div_factor": 1e-4},
+                                "MultiStepLR" : {"milestones": [7], 
+                                                 "gamma" : 0.1},
+                                "CosineAnnealingLR" : {"eta_min":1e-8},
+                                "CosineAnnealingWarmRestarts" : {"T_0":1,
+                                                                 "T_mult":1,
+                                                                 "eta_min":1e-8},
+                                "LinearWarmup" : {"warmup_epochs":0,
+                                                  "warmup_iters":1000,
+                                                  "eta_min":1e-6}                             
+                               }}}    
+            },
+
+
+"training_params" : {"model_name" : "cpg0004_dino_baseline",
+                    "loss_coefficients": [1.0, 1.0, 1.0],
+                    "epochs" : 200,
+                    "val_every" : 2.0,
+                    "knn_eval_every": 2.0,
+                    "log_embeddings" : true,
+                    "log_kbet" : true,
+                    "make_umap_eval" : true,
+                    "store_embeddings" : true,
+                    "restrict_knn_basesize": 0,     
+                    "normalized_per_domain": true,
+                    "do_test_eval": false, 
+                    "save_best_model": true,
+                    "use_aux_head": true,
+                    "used_type_for_save_best" : "aux_val",                     
+                    "reset_aux_every" : 0,                     
+                    "grad_clipping" : 3.0,
+                    "log_every" : 25,
+                    "probability_sampling": false,
+                    "restore_session" : false,
+                    "restore_only_model": true,
+                    "use_tensorboard" : false,
+                    "use_mixed_precision" : false,                
+                    "save_dir" : "/raid/cian/user/sergei.pnev/results/rxrx1/paper_v1/CDCL"
+                  },
+    
+"system_params" : {"use_all_GPUs" : false,
+                   "which_GPUs": "0",
+                   "use_GPU" : true
+                  },
+    
+"log_params" : {"project_name" : "miccai-2025",
+                "run_name": "dauntless-monkey-98"
+                },
+    
+"lr_finder" : {"type": "grid_search",
+                       "grid_search_params": {"min_pow" : -5, 
+                                            "max_pow" : -2, 
+                                            "resolution" : 25, 
+                                            "n_epochs" : 5, 
+                                            "random_lr" : false,
+                                            "keep_schedule" : false,
+                                            "report_intermediate_steps" : false
+                                             }
+            },
+    
+"transfer_learning_params" : {
+                    "use_pretrained" : false,
+                    "pretrained_model_name" : "name_of_pretrained_model",
+                    "pretrained_path": "/raid/cian/user/sergei.pnev/results/CPG0004/cdcl_baseline_patchAgnostic"
+                 }
+}
+
