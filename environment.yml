@@ -508,4 +508,3 @@ dependencies:
       - rsa==4.9
       - tensorboard==2.14.0
       - tensorboard-data-server==0.7.2
-prefix: /home/sergei.pnev/miniconda3/envs/cdcl
