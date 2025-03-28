@@ -5,7 +5,7 @@ High-Content Screening (HCS) is a powerful tool in drug discovery, enabling the 
 ### *Our approach*
 
 <p align="center">
-  <img width="100%" src="assets/Fig_1.pdf">
+  <img width="100%" src="assets/Fig_1.png">
 </p>
 
 
